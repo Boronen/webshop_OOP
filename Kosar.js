@@ -64,38 +64,46 @@ export default class Kosar {
         return osszeg;
     }
 
-    megjelenit() {
-        this.#kosarElem.innerHTML = "";
+megjelenit() {
+    this.#kosarElem.innerHTML = "";
 
-        if (this.#items.length === 0) {
-            this.#kosarElem.innerHTML =
-                `<p class="text-center mb-0">A kosár üres</p>`;
-            return;
-        }
+    if (this.#items.length === 0) {
+        this.#kosarElem.innerHTML =
+            `<p class="text-center mb-0">A kosár üres</p>`;
+        return;
+    }
 
-        for (let i = 0; i < this.#items.length; i++) {
-            const item = this.#items[i];
-            const sor = document.createElement("div");
-            sor.className =
-                "d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom";
-            sor.innerHTML = `
+    for (let i = 0; i < this.#items.length; i++) {
+        const item = this.#items[i];
+        const sor = document.createElement("div");
+        sor.className =
+            "d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom";
+
+        const kepHtml = item.termek.kep
+            ? `<img src="${item.termek.kep}" alt="${item.termek.nev}" style="width: 40px; height: 40px; object-fit: cover;" class="me-2 rounded">`
+            : "";
+
+        sor.innerHTML = `
+            <div class="d-flex align-items-center">
+                ${kepHtml}
                 <div>
                     <h6 class="mb-0">${item.termek.nev}</h6>
                     <small class="text-muted">${item.termek.ar} Ft x ${item.darab}</small>
                 </div>
-                <div class="d-flex align-items-center">
-                    <button class="btn btn-sm btn-outline-secondary csokkent"
-                            data-id="${item.termek.id}">-</button>
-                    <span class="mx-2">${item.darab}</span>
-                    <button class="btn btn-sm btn-outline-secondary novel"
-                            data-id="${item.termek.id}">+</button>
-                    <button class="btn btn-sm btn-danger ms-2 torol"
-                            data-id="${item.termek.id}">Töröl</button>
-                </div>
-            `;
-            this.#kosarElem.appendChild(sor);
-        }
+            </div>
+            <div class="d-flex align-items-center">
+                <button class="btn btn-sm btn-outline-secondary csokkent"
+                        data-id="${item.termek.id}">-</button>
+                <span class="mx-2">${item.darab}</span>
+                <button class="btn btn-sm btn-outline-secondary novel"
+                        data-id="${item.termek.id}">+</button>
+                <button class="btn btn-sm btn-danger ms-2 torol"
+                        data-id="${item.termek.id}">Töröl</button>
+            </div>
+        `;
+        this.#kosarElem.appendChild(sor);
     }
+}
 
     frissit() {
         this.megjelenit();
